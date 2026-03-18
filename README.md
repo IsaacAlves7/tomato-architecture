@@ -47,3 +47,5 @@ A arquitetura assume que **sistemas reais são assim**:
 * Para escrita, pode usar agregados, serviços de domínio e eventos.
 * Infrastructure não é demonizada — é utilizada de forma prática.
 * Barramentos de evento são tratados como parte natural do domínio.
+
+Aplicação completa em ASP.NET Core com Tomato Architecture (variação da Onion Architecture) aplicada a microsserviços. A estrutura terá camadas concêntricas como um tomate: `Seed (Domain) → Pulp (Application) → Flesh (Infrastructure) → Skin (API)`:
