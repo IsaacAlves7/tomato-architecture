@@ -44,23 +44,20 @@ A "Tomato Architecture" é um conceito de arquitetura de software que surge como
 
 Com base nas informações disponíveis, que são limitadas a discussões em comunidades de desenvolvedores, explico abaixo a sua origem e os seus princípios.
 
-📐 Princípios da Tomato Architecture
-
-Com base nessa motivação, a Tomato Architecture propõe algumas mudanças de ênfase em relação às suas antecessoras:
+Princípios da Tomato Architecture: Com base nessa motivação, a Tomato Architecture propõe algumas mudanças de ênfase em relação às suas antecessoras:
 
 *   **Testes de Integração como Prioridade**: Em vez de confiar quase exclusivamente em testes de unidade com mocks, a Tomato Architecture incentiva o uso de ferramentas como **testcontainers** para executar testes de integração diretamente contra os serviços externos reais (como bancos de dados e filas). A ideia é que isso gera mais confiança no funcionamento do sistema .
+
 *   **Pragmatismo nas Abstrações**: A arquitetura sugere evitar a criação de interfaces e camadas de abstração para "casos hipotéticos" de troca futura de tecnologias (ex: trocar de banco de dados), a menos que essa necessidade seja real e iminente. A premissa é que grandes frameworks ou provedores de infraestrutura raramente são trocados, e o esforço para abstraí-los pode não valer a pena .
+
 *   **Camada de Negócios Mais Enxuta**: O objetivo é que a camada de negócios dependa o mínimo possível de detalhes de serviços externos, mas sem a rigidez extrema que pode tornar o desenvolvimento mais lento .
 
-⚖️ Comparação com a Onion Architecture
-
-A Onion Architecture, proposta por Jeffrey Palermo, organiza o código em camadas concêntricas ao redor do **Modelo de Domínio**. Sua regra fundamental é que as dependências fluem **para dentro**, ou seja, as camadas externas (Infraestrutura, UI) podem depender das camadas internas (Domínio, Aplicação), mas o núcleo nunca depende de nada externo. Isso é alcançado através do uso intenso de **interfaces** (abstrações) definidas nas camadas internas e implementadas nas externas (princípio da Inversão de Dependência) .
+Comparação com a Onion Architecture: A Onion Architecture, proposta por Jeffrey Palermo, organiza o código em camadas concêntricas ao redor do **Modelo de Domínio**. Sua regra fundamental é que as dependências fluem **para dentro**, ou seja, as camadas externas (Infraestrutura, UI) podem depender das camadas internas (Domínio, Aplicação), mas o núcleo nunca depende de nada externo. Isso é alcançado através do uso intenso de **interfaces** (abstrações) definidas nas camadas internas e implementadas nas externas (princípio da Inversão de Dependência) .
 
 A Tomato Architecture pode ser vista como uma "evolução" prática ou uma variação da Onion Architecture ao **relaxar alguns de seus princípios mais rigorosos** em prol da praticidade e da efetividade dos testes. Enquanto a Onion prega a abstração total para proteger o domínio, a Tomato questiona o custo dessa abstração quando a tecnologia subjacente é estável. Enquanto a Onion viabiliza testes de unidade puros, a Tomato argumenta que testes de integração bem-feitos dão mais segurança.
 
-💡 Observações Importantes
-
-É fundamental entender que a "Tomato Architecture" **não é um padrão amplamente documentado ou reconhecido formalmente** na literatura de engenharia de software. As informações sobre ela circulam principalmente em fóruns, posts de blog e discussões técnicas, como a encontrada no resultado de busca . Seu nome é uma metáfora que brinca com as outras arquiteturas "comestíveis" (Cebola/Onion, Limpa/Clean), sugerindo algo mais robusto e prático.
+> [!Important]
+> Observações Importantes: É fundamental entender que a "Tomato Architecture" **não é um padrão amplamente documentado ou reconhecido formalmente** na literatura de engenharia de software. As informações sobre ela circulam principalmente em fóruns, posts de blog e discussões técnicas, como a encontrada no resultado de busca . Seu nome é uma metáfora que brinca com as outras arquiteturas "comestíveis" (Cebola/Onion, Limpa/Clean), sugerindo algo mais robusto e prático.
 
 Portanto, você deve encará-la mais como uma **filosofia ou um conjunto de boas práticas** que surgiu da experiência de desenvolvedores do que como uma receita de bolo com regras definidas.
 
