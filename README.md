@@ -36,6 +36,38 @@ Por que o nome “Tomato”? A metáfora é proposital. Um tomate tem:
 * amadurecimento progressivo,
 * e uma forma natural de crescimento, não simétrica.
 
+A "Tomato Architecture" é um conceito de arquitetura de software que surge como uma evolução prática de estilos arquiteturais bem conhecidos, como a **Clean Architecture** e a **Onion Architecture** .
+
+Com base nas informações disponíveis, que são limitadas a discussões em comunidades de desenvolvedores, explico abaixo a sua origem e os seus princípios.
+
+🍅 Origem e Motivação
+
+A Tomato Architecture não é um padrão formalmente definido por um autor ou instituição específica. Em vez disso, ela parece ter emergido de **críticas e reflexões práticas** de desenvolvedores sobre a aplicação das arquiteturas Clean e Onion em projetos reais . A principal motivação para o seu surgimento é a percepção de que, embora essas arquiteturas tradicionais busquem um alto nível de abstração para isolar o código de regras de negócio de detalhes externos (como bancos de dados e APIs), essa abordagem pode, por vezes, tornar-se "fora da realidade" para muitos projetos empresariais .
+
+A crítica central que teria dado origem à Tomato Architecture é que as arquiteturas tradicionais focam demais em isolar o código para facilitar **testes de unidade** com mocks, mas acabam negligenciando a importância dos **testes de integração**, que são cruciais para garantir que o sistema funcione como um todo. A ideia por trás do "Tomato" seria, portanto, a de uma arquitetura mais "carnuda" e prática, onde a testabilidade efetiva (com integração real a componentes como bancos de dados) é um valor mais importante do que a pureza da abstração .
+
+📐 Princípios da Tomato Architecture
+
+Com base nessa motivação, a Tomato Architecture propõe algumas mudanças de ênfase em relação às suas antecessoras:
+
+*   **Testes de Integração como Prioridade**: Em vez de confiar quase exclusivamente em testes de unidade com mocks, a Tomato Architecture incentiva o uso de ferramentas como **testcontainers** para executar testes de integração diretamente contra os serviços externos reais (como bancos de dados e filas). A ideia é que isso gera mais confiança no funcionamento do sistema .
+*   **Pragmatismo nas Abstrações**: A arquitetura sugere evitar a criação de interfaces e camadas de abstração para "casos hipotéticos" de troca futura de tecnologias (ex: trocar de banco de dados), a menos que essa necessidade seja real e iminente. A premissa é que grandes frameworks ou provedores de infraestrutura raramente são trocados, e o esforço para abstraí-los pode não valer a pena .
+*   **Camada de Negócios Mais Enxuta**: O objetivo é que a camada de negócios dependa o mínimo possível de detalhes de serviços externos, mas sem a rigidez extrema que pode tornar o desenvolvimento mais lento .
+
+⚖️ Comparação com a Onion Architecture
+
+A Onion Architecture, proposta por Jeffrey Palermo, organiza o código em camadas concêntricas ao redor do **Modelo de Domínio**. Sua regra fundamental é que as dependências fluem **para dentro**, ou seja, as camadas externas (Infraestrutura, UI) podem depender das camadas internas (Domínio, Aplicação), mas o núcleo nunca depende de nada externo. Isso é alcançado através do uso intenso de **interfaces** (abstrações) definidas nas camadas internas e implementadas nas externas (princípio da Inversão de Dependência) .
+
+A Tomato Architecture pode ser vista como uma "evolução" prática ou uma variação da Onion Architecture ao **relaxar alguns de seus princípios mais rigorosos** em prol da praticidade e da efetividade dos testes. Enquanto a Onion prega a abstração total para proteger o domínio, a Tomato questiona o custo dessa abstração quando a tecnologia subjacente é estável. Enquanto a Onion viabiliza testes de unidade puros, a Tomato argumenta que testes de integração bem-feitos dão mais segurança.
+
+💡 Observações Importantes
+
+É fundamental entender que a "Tomato Architecture" **não é um padrão amplamente documentado ou reconhecido formalmente** na literatura de engenharia de software. As informações sobre ela circulam principalmente em fóruns, posts de blog e discussões técnicas, como a encontrada no resultado de busca . Seu nome é uma metáfora que brinca com as outras arquiteturas "comestíveis" (Cebola/Onion, Limpa/Clean), sugerindo algo mais robusto e prático.
+
+Portanto, você deve encará-la mais como uma **filosofia ou um conjunto de boas práticas** que surgiu da experiência de desenvolvedores do que como uma receita de bolo com regras definidas.
+
+Se você estiver interessado em explorar mais a fundo esse conceito, sugiro buscar por discussões em comunidades como o Reddit (r/programming, r/ExperiencedDevs) ou blogs de engenharia de software, onde esses tópicos são frequentemente debatidos.
+
 A arquitetura assume que **sistemas reais são assim**:
 
 ![tomato-architecture](https://github.com/user-attachments/assets/a080719a-4aef-4bf9-ab41-f9d647082f8c)
