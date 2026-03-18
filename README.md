@@ -5,6 +5,10 @@
 
 A **Tomato Architecture** é uma evolução pragmática das arquiteturas **Clean**, **Onion** e **Hexagonal**, criada para lidar com a realidade de sistemas modernos distribuídos, orientados a eventos, altamente integrados, com múltiplos modelos de escrita/leitura, APIs, filas, streams e domínios que mudam ao longo do tempo. É uma tentativa de pegar o melhor das arquiteturas clássicas e torná-las realmente práticas no dia a dia, evitando o excesso de abstração e o “purismo arquitetural” que muitas vezes torna Clean/Hexagonal difíceis de aplicar em escala. Se Clean/Hexagonal são teorias sobre pureza, Tomato é prática sobre sobrevivência e evolução de sistemas reais.
 
+A Tomato Architecture não é um padrão formalmente definido por um autor ou instituição específica. Em vez disso, ela parece ter emergido de **críticas e reflexões práticas** de desenvolvedores sobre a aplicação das arquiteturas Clean e Onion em projetos reais. A principal motivação para o seu surgimento é a percepção de que, embora essas arquiteturas tradicionais busquem um alto nível de abstração para isolar o código de regras de negócio de detalhes externos (como bancos de dados e APIs), essa abordagem pode, por vezes, tornar-se "fora da realidade" para muitos projetos empresariais .
+
+A crítica central que teria dado origem à Tomato Architecture é que as arquiteturas tradicionais focam demais em isolar o código para facilitar **testes de unidade** com mocks, mas acabam negligenciando a importância dos **testes de integração**, que são cruciais para garantir que o sistema funcione como um todo. A ideia por trás do "Tomato" seria, portanto, a de uma arquitetura mais "carnuda" e prática, onde a testabilidade efetiva (com integração real a componentes como bancos de dados) é um valor mais importante do que a pureza da abstração.
+
 A Tomato Architecture nasce da percepção de que sistemas reais são “vivos”, orgânicos, mudam de forma, crescem de maneira desigual e possuem partes que amadurecem em ritmos diferentes, exatamente como um tomate crescendo em camadas, com áreas mais verdes e áreas mais vermelhas coexistindo. A ideia central é que o software não precisa nascer 100% Clean, Onion ou Hexagonal. Ele pode amadurecer aos poucos, aplicando princípios de isolamento de domínio somente onde isso realmente traz benefício concreto.
 
 É uma arquitetura baseada em **maturidade por camadas**, e não apenas em separação por dependências. Enquanto Onion e Hexagonal colocam regras fixas para quem depende de quem, a <a href="https://www.sivalabs.in/blog/tomato-architecture-pragmatic-approach-to-software-design/">Tomato</a> introduz o conceito de **maturidade arquitetural**, permitindo que cada módulo esteja em um nível diferente, variando do mais simples ao mais sofisticado conforme sua importância no domínio.
@@ -39,12 +43,6 @@ Por que o nome “Tomato”? A metáfora é proposital. Um tomate tem:
 A "Tomato Architecture" é um conceito de arquitetura de software que surge como uma evolução prática de estilos arquiteturais bem conhecidos, como a **Clean Architecture** e a **Onion Architecture** .
 
 Com base nas informações disponíveis, que são limitadas a discussões em comunidades de desenvolvedores, explico abaixo a sua origem e os seus princípios.
-
-🍅 Origem e Motivação
-
-A Tomato Architecture não é um padrão formalmente definido por um autor ou instituição específica. Em vez disso, ela parece ter emergido de **críticas e reflexões práticas** de desenvolvedores sobre a aplicação das arquiteturas Clean e Onion em projetos reais . A principal motivação para o seu surgimento é a percepção de que, embora essas arquiteturas tradicionais busquem um alto nível de abstração para isolar o código de regras de negócio de detalhes externos (como bancos de dados e APIs), essa abordagem pode, por vezes, tornar-se "fora da realidade" para muitos projetos empresariais .
-
-A crítica central que teria dado origem à Tomato Architecture é que as arquiteturas tradicionais focam demais em isolar o código para facilitar **testes de unidade** com mocks, mas acabam negligenciando a importância dos **testes de integração**, que são cruciais para garantir que o sistema funcione como um todo. A ideia por trás do "Tomato" seria, portanto, a de uma arquitetura mais "carnuda" e prática, onde a testabilidade efetiva (com integração real a componentes como bancos de dados) é um valor mais importante do que a pureza da abstração .
 
 📐 Princípios da Tomato Architecture
 
