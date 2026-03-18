@@ -1,0 +1,20 @@
+version: '3.9'
+
+# ── Sobrescreve configurações para ambiente de desenvolvimento local ───────────
+# Usa banco em memória (InMemory) para não depender do SQL Server ao rodar localmente.
+
+services:
+
+  product-service:
+    environment:
+      ASPNETCORE_ENVIRONMENT: "Development"
+      ConnectionStrings__ProductDatabase: ""   # vazio → usa InMemory
+
+  order-service:
+    environment:
+      ASPNETCORE_ENVIRONMENT: "Development"
+      ConnectionStrings__OrderDatabase: ""     # vazio → usa InMemory
+
+  api-gateway:
+    environment:
+      ASPNETCORE_ENVIRONMENT: "Development"

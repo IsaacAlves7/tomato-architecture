@@ -1,0 +1,42 @@
+## .NET
+bin/
+obj/
+*.user
+*.suo
+.vs/
+*.userprefs
+*.pidb
+*.sln.ide
+
+## Publish
+publish/
+out/
+
+## NuGet
+*.nupkg
+*.snupkg
+packages/
+project.lock.json
+project.fragment.lock.json
+artifacts/
+
+## Secrets
+appsettings.*.json
+!appsettings.json
+!appsettings.Docker.json
+secrets.json
+*.pfx
+*.p12
+
+## Docker
+.dockerignore
+
+## IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+## OS
+.DS_Store
+Thumbs.db

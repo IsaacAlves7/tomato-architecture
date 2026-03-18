@@ -1,0 +1,131 @@
+version: '3.9'
+
+# ─────────────────────────────────────────────────────────────────────────────
+# 🍅 Tomato Microservices — docker-compose
+#
+# Camadas da Tomato Architecture:
+#   Seed  (Domain)         → regras de negócio puras
+#   Pulp  (Application)    → casos de uso + CQRS
+#   Flesh (Infrastructure) → EF Core + repositórios
+#   Skin  (API)            → controllers HTTP
+# ─────────────────────────────────────────────────────────────────────────────
+
+networks:
+  tomato-net:
+    driver: bridge
+
+volumes:
+  sqlserver-data:
+  seq-data:
+
+services:
+
+  # ── SQL Server ──────────────────────────────────────────────────────────────
+  sqlserver:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    container_name: tomato-sqlserver
+    environment:
+      SA_PASSWORD: "Tomato@2024!"
+      ACCEPT_EULA: "Y"
+      MSSQL_PID: "Developer"
+    ports:
+      - "1433:1433"
+    volumes:
+      - sqlserver-data:/var/opt/mssql
+    networks:
+      - tomato-net
+    healthcheck:
+      test: ["CMD-SHELL", "/opt/mssql-tools/bin/sqlcmd -S localhost -U sa -P 'Tomato@2024!' -Q 'SELECT 1'"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+
+  # ── Seq (Log Aggregator) ────────────────────────────────────────────────────
+  seq:
+    image: datalust/seq:latest
+    container_name: tomato-seq
+    environment:
+      ACCEPT_EULA: "Y"
+    ports:
+      - "5341:5341"
+      - "8081:80"
+    volumes:
+      - seq-data:/data
+    networks:
+      - tomato-net
+
+  # ── ProductService ──────────────────────────────────────────────────────────
+  product-service:
+    build:
+      context: .
+      dockerfile: Services/ProductService/Dockerfile
+    container_name: tomato-product-service
+    environment:
+      ASPNETCORE_ENVIRONMENT: "Docker"
+      ASPNETCORE_URLS: "http://+:80"
+      ConnectionStrings__ProductDatabase: >
+        Server=sqlserver;Database=ProductDb;
+        User Id=sa;Password=Tomato@2024!;
+        TrustServerCertificate=True;
+      Serilog__WriteTo__0__Name: "Seq"
+      Serilog__WriteTo__0__Args__serverUrl: "http://seq:5341"
+    ports:
+      - "5001:80"
+    depends_on:
+      sqlserver:
+        condition: service_healthy
+    networks:
+      - tomato-net
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:80/health"]
+      interval: 15s
+      timeout: 5s
+      retries: 5
+
+  # ── OrderService ────────────────────────────────────────────────────────────
+  order-service:
+    build:
+      context: .
+      dockerfile: Services/OrderService/Dockerfile
+    container_name: tomato-order-service
+    environment:
+      ASPNETCORE_ENVIRONMENT: "Docker"
+      ASPNETCORE_URLS: "http://+:80"
+      ConnectionStrings__OrderDatabase: >
+        Server=sqlserver;Database=OrderDb;
+        User Id=sa;Password=Tomato@2024!;
+        TrustServerCertificate=True;
+      Serilog__WriteTo__0__Name: "Seq"
+      Serilog__WriteTo__0__Args__serverUrl: "http://seq:5341"
+    ports:
+      - "5002:80"
+    depends_on:
+      sqlserver:
+        condition: service_healthy
+    networks:
+      - tomato-net
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:80/health"]
+      interval: 15s
+      timeout: 5s
+      retries: 5
+
+  # ── API Gateway (YARP) ──────────────────────────────────────────────────────
+  api-gateway:
+    build:
+      context: .
+      dockerfile: ApiGateway/Dockerfile
+    container_name: tomato-api-gateway
+    environment:
+      ASPNETCORE_ENVIRONMENT: "Docker"
+      ASPNETCORE_URLS: "http://+:80"
+    ports:
+      - "5000:80"
+    depends_on:
+      - product-service
+      - order-service
+    networks:
+      - tomato-net
+    restart: unless-stopped
